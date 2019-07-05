@@ -71,4 +71,9 @@ public class UserInfoServiceIMPL  {
         }
     };
 
+
+    public String upLoadPic(byte[] pic){
+        return null;
+    }
+
 }
