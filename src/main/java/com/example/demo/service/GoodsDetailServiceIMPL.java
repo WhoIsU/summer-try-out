@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.entity.GoodsDetail;
 import com.example.demo.entity.GoodsDetailExample;
+import com.example.demo.entity.GoodsRough;
 import com.example.demo.mapper.GoodsDetailMapper;
+import com.example.demo.mapper.GoodsRoughMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ public class GoodsDetailServiceIMPL {
     @Autowired
     private GoodsDetailMapper goodsDetailMapper;
 
+    @Autowired
+    private GoodsRoughMapper goodsRoughMapper;
 
     //通过goodsDetailid删除
     public void deleteByGoodsDetailByDetailID(int id){
@@ -28,6 +32,10 @@ public class GoodsDetailServiceIMPL {
     //传入修改后的goodsDetail记录
     public void updateGoodsDetailByDetailID(GoodsDetail goodsDetail){
         goodsDetailMapper.updateByPrimaryKey(goodsDetail);
+    }
+
+    public GoodsDetail findByGoodsDetailID(GoodsDetail goodsDetail){
+        return goodsDetailMapper.selectByPrimaryKey(goodsDetail.getGoodsDetaiId());
     }
 
     //传入1个goodsDetail,空余项为null
@@ -64,5 +72,19 @@ public class GoodsDetailServiceIMPL {
         criteria.andStockBetween(min,max);
         return goodsDetailMapper.selectByExample(goodsDetailExample);
     }
+
+    //通过DetailID获取Rough
+    public GoodsRough findGoodsRoughByDetailID(GoodsDetail goodsDetail) {
+
+
+        GoodsRoughServiceIMPL goodsRoughServiceIMPL1=new GoodsRoughServiceIMPL();
+        GoodsDetailServiceIMPL goodsDetailServiceIMPL=new GoodsDetailServiceIMPL();
+
+        goodsDetail=goodsDetailServiceIMPL.findByGoodsDetailID(goodsDetail);
+        GoodsRough goodsRough=new GoodsRough();
+
+        return goodsRoughServiceIMPL1.findByGoodsRoughID(goodsDetail.getGoodsId());
+    }
+
 
 }
